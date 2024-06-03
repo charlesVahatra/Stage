@@ -1,16 +1,45 @@
-
 BEGIN { j=1 }
-/Seleziona Marca/ {
-        split($0, ar, "Seleziona Marca")
-        split(ar[2], ar_1, "\"options\":\\{\"")
-        split(ar_1[2], ar_2, "\"\\}")
-        nb=split(ar_2[1], ar_3, "\",\"")
-        for(i=1;i<=nb;i++) {
-                split(ar_3[i], ar_4, "\":\"")
-                printf("marque_id[%d]=\"%s\";\n", j, ar_4[1])
-                printf("marque_name[%d]=\"%s\";\n", j, ar_4[2])
-                j++
-        }
+/<div class="flexmain"><div class="menuleft"><div class="nadpismenu">Osobní auta<\/div>/ {
+getline
+getline
+getline
+	split($0, ar, /<a href="/)
+	split(ar[2], ar1, /"/)
+	gsub("/", "", ar1[1])
+	printf("marque_name[%d]=\"%s\";\n", j, ar1[1])
+j++
+	nb=24
+	for(i=1;i<=nb;i++) {
+	getline
+	split($0, ar, /<a href="/)
+	split(ar[2], ar1, /"/)
+	gsub("/", "", ar1[1])
+	printf("marque_name[%d]=\"%s\";\n", j, ar1[1])
+		j++
+	}
+	getline 
+	getline 
+	split($0, ar, /"https:\/\/elektro.bazos.cz\//)
+	split(ar[2], ar1, /\//)
+	gsub("/", "", ar1[1])
+	printf("marque_name[%d]=\"%s\";\n", j, ar1[1])
+		j++
+	getline
+	split($0, ar, /"https:\/\/pc.bazos.cz\//)
+	split(ar[2], ar1, /\//)
+	gsub("/", "", ar1[1])
+	printf("marque_name[%d]=\"%s\";\n", j, ar1[1])
+		j++
+	nb=6
+	for(i=1;i<=nb;i++) {
+	getline
+	split($0, ar, /<a href="/)
+	split(ar[2], ar1, /"/)
+	gsub("/", "", ar1[1])
+	printf("marque_name[%d]=\"%s\";\n", j, ar1[1])
+		j++
+	}
+
         exit
 }
 END {

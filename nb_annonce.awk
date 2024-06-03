@@ -1,9 +1,11 @@
 BEGIN {nb_annonce=0}
-/<span class="text-blue h2">/ {
+/<meta http-equiv="Content-Type" content="text\/html; charset=utf-8">/ {
     getline
-	    gsub("\r", "", $0)
-        gsub("[^0-9]", "", $0)
-        nb_annonce=$0
+	split($0, ar, /" content="/)
+	split(ar[2], ar1, /"/)
+	    gsub("\r", "", ar1[1])
+        gsub("[^0-9]", "", ar1[1])
+        nb_annonce=ar1[1]
 }
 END{
         print ""nb_annonce""

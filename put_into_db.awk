@@ -11,5 +11,5 @@ BEGIN { FS="\t" }
                         gsub("[ \t]+$", "", $i)
                         printf ("%s=\"%s\",", title[i], $i)
                 }
-                printf (" site=\"quattroruote\" where VO_ANNONCE_ID=%s;\n", id, id)
+                printf (" site=\"bazos\" where VO_ANNONCE_ID=%s;\n", id, id)
         }

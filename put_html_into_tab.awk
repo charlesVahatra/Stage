@@ -1,17 +1,23 @@
 BEGIN { c=1}
-/<span class="font-weight-bold mx-2">/{
-		getline
-        val["PRIX", c]=$0
+/<div class="inzeratycena"><b>/{
+		split($0,ar,/<div class="inzeratycena"><b>/)
+		split(ar[2],ar1,/<\/b><\/div>/)
+		gsub("[^0-9]", "", ar1[1])
+        val["PRIX", c]=ar1[1]
 		c++
 	}
-/ <figure class="col-12 col-md-5 mb-0 px-0 position-relative">/{
+/<div class="inzeraty inzeratyflex">/{
+	getline
 	getline
 	split($0, ar, /<a href="/)
-	split(ar[2], ar1, /" class="box-annuncio">/)
-	val["ANNONCE_LINK", c]=ar1[1]
-	gsub(".*[^0-9]-", "", ar1[1])
+	split(ar[2], ar1, /">/)
+	val["ANNONCE_LINK", c]="https://auto.bazos.cz"ar1[1]
+}
+/<span onclick="odeslatakci\('category','/{
+	split($0, ar, /<span onclick="odeslatakci\('category','/)
+	split(ar[2], ar1, /'/)
 	val["ID_CLIENT", c]=ar1[1]
-}	
+}
 
 END {
 	max_c=c
